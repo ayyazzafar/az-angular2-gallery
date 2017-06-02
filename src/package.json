@@ -1,0 +1,26 @@
+{
+  "name": "az-angular2-gallery",
+  "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ayyazzafar/az-angular2-gallery.git"
+  },
+  "author": {
+    "name": "Ayyaz",
+    "email": "ayyaz.zaffar@gmail.com"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayyazzafar/az-angular2-gallery.git/issues"
+  },
+  "module": "az-angular2-gallery.js",
+  "typings": "az-angular2-gallery.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}
