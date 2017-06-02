@@ -25,7 +25,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // Import your library
-import { SampleModule } from 'az-angular2-gallery';
+import { AzAngular2GalleryModule } from 'az-angular2-gallery';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { SampleModule } from 'az-angular2-gallery';
     BrowserModule,
 
     // Specify your library as an import
-    LibraryModule
+    AzAngular2GalleryModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -50,7 +50,13 @@ Once your library is imported, you can use its components, directives and pipes 
 <h1>
   {{title}}
 </h1>
-<sampleComponent></sampleComponent>
+<az-angular2-gallery>
+
+  <az-gallery-image class="image" style="background-image:url(image1.jpg)" href='image1.jpg'>
+  </az-gallery-image>
+
+</az-angular2-gallery>
+
 ```
 
 ## Development
@@ -69,4 +75,4 @@ $ npm run lint
 
 ## License
 
-MIT © [Ayyaz](mailto:ayyaz.zaffar@gmail.com)
+MIT © [Ayyaz](mailto:contact@ayyaz.io)
