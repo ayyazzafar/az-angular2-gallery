@@ -1,146 +1,92 @@
-import {  trigger,state,transition,keyframes, animate, style, Component, ContentChildren, AfterContentInit, QueryList } from '@angular/core';
-import {AzAngular2GalleryImageComponent } from "./az-angular2-gallery-image/az-angular2-gallery-image.component";
+import {  Component, ContentChildren, AfterContentInit, QueryList } from '@angular/core';
+
+import { AzAngular2GalleryImageComponent } from "./az-angular2-gallery-image/az-angular2-gallery-image.component";
+import {animations} from "./animations"; 
+
 @Component({
   selector: 'az-angular2-gallery',
   templateUrl: 'az-angular2-gallery.component.html',
   styleUrls: ['az-angular2-gallery.component.scss'],
-   animations:[
-        trigger('azGalleryAnimations', [
-            state('active', style({
-               opacity:1, 
-               visibility:'visible'
-            })),
-            state('inactive', style({
-                opacity:0,
-                visibility:'hidden' 
-            })),
-
-             transition('inactive => active', animate('800ms ease',keyframes([
-                style({ offset:0}),
-                style({opacity:1,  offset:1}),
-            ]))),
-            transition('active => inactive', animate('800ms ease',keyframes([
-                style({ opacity:1, offset:0}),
-                style({ opacity:0,offset:0.8}),
-                style({ opacity:0, offset:1}),
-            ])))
-
-        ]),
-
-        trigger('viewerImageAnimations', [
-            state('leftActive', style({
-               opacity:1, 
-            })),
-            state('leftInactive', style({
-                opacity:0,
-            })),
-            state('rightActive', style({
-               opacity:1, 
-            })),
-            state('rightInactive', style({
-                opacity:0,
-            })),
-
-
-             transition('leftInactive => leftActive', animate('600ms ease',keyframes([
-                style({opacity:0, transform:"translateX(50px)", offset:0}),
-                style({opacity:0.2,transform:"translateX(30px)",  offset:0.2}),
-                style({opacity:1, transform:"translateX(0px)",  offset:1}),
-            ]))),
-            transition('leftActive => leftInactive, rightActive=>leftInactive', animate('400ms ease',keyframes([
-                style({ opacity:1,transform:"translateX(0)",   offset:0}),
-                style({ opacity:0,transform:"translateX(-200px)",  offset:1}),
-            ]))),
-
-
-            transition('rightInactive => rightActive', animate('600ms ease',keyframes([
-                style({opacity:0, transform:"translateX(-50px)", offset:0}),
-                style({opacity:0.2,transform:"translateX(-30px)",  offset:0.2}),
-                style({opacity:1, transform:"translateX(0px)",  offset:1}),
-            ]))),
-            transition('rightActive => rightInactive, leftActive=>rightInactive', animate('400ms ease',keyframes([
-                style({ opacity:1,transform:"translateX(0)",   offset:0}),
-                style({ opacity:0,transform:"translateX(200px)",  offset:1}),
-            ])))
-
-
-
-
-        ]), 
-        
-    ]
+  animations: animations
 })
 export class AzAngular2GalleryComponent implements AfterContentInit {
 
   constructor() {
   }
-  @ContentChildren(AzAngular2GalleryImageComponent) azAngular2GalleryImageComponent:QueryList<AzAngular2GalleryImageComponent>;
-  images:Array<string>=[];
-  ViewerImage:string='';
+  @ContentChildren(AzAngular2GalleryImageComponent) azAngular2GalleryImageComponent: QueryList<AzAngular2GalleryImageComponent>;
+  images: Array<string> = [];
+  viewerZIndex: number = -0;
+  ViewerImage: string = '';
   self = this;
-  state:string='inactive';
-  viewerImageAnimtationsState:string = "leftActive";
-  ngAfterContentInit(){
-    console.log('OBJECT');
-    
-    this.azAngular2GalleryImageComponent.forEach((item, index)=>{
-    
+  state: string = 'inactive';
+  viewerImageAnimtationsState: string = "leftActive";
+  ngAfterContentInit() {
+
+    this.azAngular2GalleryImageComponent.forEach((item, index) => {
+
       this.images.push(item.href);
-      item.testt.subscribe((href)=>{
-      
-       let index = this.images.indexOf(href);
-       this.ViewerImage =href;
-         
-        this.state = 'active';
+      item.imageClicked.subscribe((href) => {
+
+        let index = this.images.indexOf(href);
+        this.ViewerImage = href;
+        this.showViewer();
       });
     });
 
   }
 
- hideViewer(){
-   this.state ="inactive";
- }
-newIndex =0;
- nextImg(){
-   let curIndex = this.images.indexOf(this.ViewerImage);
-   if(curIndex+1<this.images.length){
-     this.newIndex = curIndex+1;
-   }
-   else {
-     this.newIndex=0;
-   }
-   
-   this.viewerImageAnimtationsState = 'leftInactive';
- }
+  showViewer():void{
+    this.viewerZIndex = 22222222;
+    this.state = 'active';
+  }
 
- prevImg(){
-   let curIndex = this.images.indexOf(this.ViewerImage);
-   if(curIndex>0){
-     this.newIndex = curIndex-1;
-   }
-   else {
-     this.newIndex=this.images.length-1;
-   }
-   
-   this.viewerImageAnimtationsState = 'rightInactive';
- }
-
-
- imageAnimationDone($event){
-  
-  this.ViewerImage = this.images[this.newIndex];
-  if(this.viewerImageAnimtationsState=='leftInactive'){
+  hideViewer():void {
+    this.state = "inactive";
     
-    this.viewerImageAnimtationsState = 'leftActive';
   }
-  else if(this.viewerImageAnimtationsState=='rightInactive')
-  {
-    this.viewerImageAnimtationsState = 'rightActive';
+  newIndex = 0;
+  nextImg() {
+    let curIndex = this.images.indexOf(this.ViewerImage);
+    if (curIndex + 1 < this.images.length) {
+      this.newIndex = curIndex + 1;
+    }
+    else {
+      this.newIndex = 0;
+    }
+
+    this.viewerImageAnimtationsState = 'leftInactive';
+  }
+
+  prevImg() {
+    let curIndex = this.images.indexOf(this.ViewerImage);
+    if (curIndex > 0) {
+      this.newIndex = curIndex - 1;
+    }
+    else {
+      this.newIndex = this.images.length - 1;
+    }
+
+    this.viewerImageAnimtationsState = 'rightInactive';
+  }
+
+
+  imageAnimationDone($event) {
+
+    this.ViewerImage = this.images[this.newIndex];
+    if (this.viewerImageAnimtationsState == 'leftInactive') {
+
+      this.viewerImageAnimtationsState = 'leftActive';
+    }
+    else if (this.viewerImageAnimtationsState == 'rightInactive') {
+      this.viewerImageAnimtationsState = 'rightActive';
+    }
+
+  }
+  viewerAnimationDone($event) {
+    if (!($event.toState == 'active' && $event.phaseName == 'done')) {
+      this.viewerZIndex = -2323232323;
+    }
+
   }
   
- }
-
- abc(){
-   this.state='active';
- }
 }
