@@ -1,6 +1,6 @@
 {
   "name": "az-angular2-gallery",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "scripts": {
     "build": "gulp build",
     "build:watch": "gulp",

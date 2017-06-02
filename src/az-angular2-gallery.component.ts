@@ -7,20 +7,22 @@ import {AzAngular2GalleryImageComponent } from "./az-angular2-gallery-image/az-a
    animations:[
         trigger('azGalleryAnimations', [
             state('active', style({
-               opacity:1, 'z-index':22000
+               opacity:1, 
+               visibility:'visible'
             })),
             state('inactive', style({
-                opacity:0, 'z-index':-22222
+                opacity:0,
+                visibility:'hidden' 
             })),
 
              transition('inactive => active', animate('800ms ease',keyframes([
-                style({'z-index':22000, offset:0}),
-                style({opacity:1, 'z-index:':22000, offset:1}),
+                style({ offset:0}),
+                style({opacity:1,  offset:1}),
             ]))),
             transition('active => inactive', animate('800ms ease',keyframes([
-                style({ opacity:1, 'z-index:':22000, offset:0}),
-                style({ opacity:0,'z-index:':22000, offset:0.8}),
-                style({'z-index':0, opacity:0, offset:1}),
+                style({ opacity:1, offset:0}),
+                style({ opacity:0,offset:0.8}),
+                style({ opacity:0, offset:1}),
             ])))
 
         ]),
@@ -85,14 +87,14 @@ export class AzAngular2GalleryComponent implements AfterContentInit {
     
       this.images.push(item.href);
       item.testt.subscribe((href)=>{
+      
        let index = this.images.indexOf(href);
        this.ViewerImage =href;
-       
-       this.state = 'active';
+         
+        this.state = 'active';
       });
     });
 
-     console.log(this.images);
   }
 
  hideViewer(){
@@ -136,5 +138,9 @@ newIndex =0;
     this.viewerImageAnimtationsState = 'rightActive';
   }
   
+ }
+
+ abc(){
+   this.state='active';
  }
 }

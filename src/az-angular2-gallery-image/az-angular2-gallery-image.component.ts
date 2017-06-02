@@ -3,16 +3,14 @@ import {  Component, Input, Output, OnInit, EventEmitter, HostListener  } from '
 @Component({
     selector: 'az-gallery-image',
     templateUrl: 'az-angular2-gallery-image.component.html',
-    host:{'(click)':'zzz()'},
    
 })
 
 export class AzAngular2GalleryImageComponent implements OnInit {
     @Input() href:string;
     constructor() { }
-    @Output() testt: EventEmitter<any> = new EventEmitter();
+    @Output() testt: EventEmitter<string> = new EventEmitter<string>();
     @HostListener('click', ['$event.target']) onclick(el){
-        console.log(el);
         this.testt.emit(this.href);
     }
 
